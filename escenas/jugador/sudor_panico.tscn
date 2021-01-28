@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="Curve" id=1]
+max_value = 2.0
+_data = [ Vector2( 0, 2 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -3.15316, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0, 0.976563, 1, 1, 0, 0.25, 1, 1 )
+
+[node name="sudor_panico" type="CPUParticles2D"]
+explosiveness = 0.11
+local_coords = false
+initial_velocity = 48.39
+initial_velocity_random = 1.0
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
