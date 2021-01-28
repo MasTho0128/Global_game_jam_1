@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://sprites/jugador/spritesheet_character.png" type="Texture" id=1]
 [ext_resource path="res://codigo/jugador/jugador.gd" type="Script" id=2]
 [ext_resource path="res://codigo/jugador/FMS_jugador.gd" type="Script" id=3]
+[ext_resource path="res://escenas/jugador/sudor_panico.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 17.3631 )
@@ -103,6 +104,15 @@ limit_smoothed = true
 smoothing_enabled = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
+
+[node name="sudor_panico_dere" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0, -8 )
+emitting = false
+
+[node name="sudor_panico_izq" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0, -8 )
+scale = Vector2( -1, 1 )
+emitting = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 3 )

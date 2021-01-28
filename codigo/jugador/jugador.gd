@@ -3,6 +3,8 @@ class_name jugador
 
 signal sig_estado(nuevo_estado)
 onready var spr_player = $AnimatedSprite
+onready var sudor_dere = $sudor_panico_dere
+onready var sudor_izq = $sudor_panico_izq
 
 
 #velocidades, gravedad y direccion
@@ -19,6 +21,9 @@ var puede_saltar = false
 var tiene_linterna = false
 var tiene_tijeras = false
 
+#relacionado con salud,vida, etc player
+var vida = 5 setget actualizar_vida
+
 
 func _ready():
 	OS.center_window()
@@ -30,6 +35,7 @@ func _physics_process(delta):
 	salto_jugador()
 	girar_spr()
 	item_activado()
+	if Input.is_action_just_pressed("ui_accept"):actualizar_vida(1)
 
 func aplicar_gravedad(delta):
 	if is_on_floor():
@@ -69,3 +75,16 @@ func item_activado():
 		pass
 	if tiene_tijeras:
 		pass
+
+func actualizar_vida(valor):
+	vida -= valor
+	if vida <= 3 and !sudor_dere.emitting and !sudor_izq.emitting:
+		sudor_dere.emitting = true
+		sudor_izq.emitting = true
+	if vida <= 2:
+		sudor_dere.amount = 20
+		sudor_izq.amount = 20
+	if vida <= 0:
+		sudor_dere.emitting = false
+		sudor_izq.emitting = false
+#		print("murio")
