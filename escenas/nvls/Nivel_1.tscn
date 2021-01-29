@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://codigo/nvls/Nivel_1.gd" type="Script" id=1]
 [ext_resource path="res://escenas/tilemaps/cueva.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://escenas/obj/Items.tscn" type="PackedScene" id=4]
 [ext_resource path="res://escenas/enemigos/escorpion.tscn" type="PackedScene" id=5]
 [ext_resource path="res://escenas/enemigos/direccionadorEscorpiones.tscn" type="PackedScene" id=6]
+[ext_resource path="res://sprites/jugador/iluminacion2.png" type="Texture" id=7]
 
 [node name="Nivel_1" type="Node2D"]
 script = ExtResource( 1 )
@@ -70,3 +71,15 @@ flipV = true
 position = Vector2( 360.85, 166.997 )
 direccion = Vector2( 1, 0 )
 flipV = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0, 0.0156863, 0.0745098, 1 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 533.241, 26.3836 )
+scale = Vector2( 0.330833, 0.330833 )
+texture = ExtResource( 7 )
+energy = 1.63
+shadow_enabled = true
+shadow_gradient_length = 0.5
+shadow_filter_smooth = 64.0

@@ -5,8 +5,11 @@ export(float) var max_velocidad = 30
 
 # warning-ignore:unused_argument
 func _physics_process(delta):
-	global_position += direccion*max_velocidad*delta
-	pass
+	#global_position += direccion*max_velocidad*delta
+	var colision = move_and_collide(direccion*max_velocidad*delta)
+	if colision != null and colision.collider.has_method("perder_vida"):
+		colision.collider.perder_vida()
+		print("hacer daño")
 
 func cambiar_direccion(nueva_direccion, flipH, flipV):
 	direccion = nueva_direccion
@@ -23,5 +26,4 @@ func cambiar_direccion(nueva_direccion, flipH, flipV):
 			$AnimatedSprite.flip_v = false
 		else:
 			$AnimatedSprite.flip_v = true
-		
-	#print(direccion.angle())
+	

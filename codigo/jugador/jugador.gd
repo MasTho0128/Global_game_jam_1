@@ -10,8 +10,8 @@ onready var sudor_izq = $sudor_panico_izq
 #velocidades, gravedad y direccion
 var velocidad = Vector2()
 export(float) var vel_caminar = 120
-export(float) var vel_salto = 250
-export(float) var gravedad = 400
+export(float) var vel_salto = 300
+export(float) var gravedad = 500
 var dir = 0
 var snap_vector = Vector2.DOWN * 16
 var pend_max = deg2rad(46)
@@ -22,13 +22,19 @@ var tiene_linterna = false
 var tiene_tijeras = false
 
 #relacionado con salud,vida, etc player
-var vida = 5 setget actualizar_vida
+var vida = 3 setget actualizar_vida
+var texture_scale_ini
 
+var tween_estado = 0
 
 func _ready():
 	OS.center_window()
 	for t in get_tree().get_nodes_in_group("pos_ini"):self.global_position = t.global_position
-
+	
+	texture_scale_ini = $Light2D.texture_scale
+	f_tween()
+	$Tween.start()
+	
 func _physics_process(delta):
 	aplicar_gravedad(delta)
 	mov_jugador()
@@ -36,6 +42,7 @@ func _physics_process(delta):
 	girar_spr()
 	item_activado()
 	if Input.is_action_just_pressed("ui_accept"):actualizar_vida(1)
+	
 
 func aplicar_gravedad(delta):
 	if is_on_floor():
@@ -88,3 +95,14 @@ func actualizar_vida(valor):
 		sudor_dere.emitting = false
 		sudor_izq.emitting = false
 #		print("murio")
+
+func f_tween():
+	var R = texture_scale_ini*(1 + vida)/3
+	if tween_estado == 0:
+		$Tween.interpolate_property($Light2D, "texture_scale", R*0.9, R*1.1, 1.0, Tween.TRANS_CUBIC)
+		tween_estado = 1
+	else:
+		$Tween.interpolate_property($Light2D, "texture_scale", R*1.1, R*0.9, 1.0, Tween.TRANS_LINEAR)
+		tween_estado = 0
+func _on_Tween_tween_completed(object, key):
+	f_tween()
