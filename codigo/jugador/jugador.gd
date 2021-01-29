@@ -20,7 +20,7 @@ var puede_saltar = false
 
 
 #eventos con los items
-var tiene_linterna = false
+var tiene_linterna = true
 var tiene_tijeras = false
 
 #relacionado con salud,vida, etc player
@@ -73,6 +73,7 @@ func aplicar_gravedad(delta):
 func mov_jugador():
 	dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 	velocidad.x = dir * vel_caminar
+	if dir: $Light2DLinterna.scale.x = dir
 	velocidad = move_and_slide_with_snap(velocidad, snap_vector, Vector2.UP,true, 4, pend_max)
 
 func salto_jugador():
@@ -96,7 +97,7 @@ func girar_spr():
 
 func item_activado():
 	if tiene_linterna:
-		pass
+		$Light2DLinterna.enabled = true
 	if tiene_tijeras:
 		pass
 

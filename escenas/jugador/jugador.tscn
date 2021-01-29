@@ -155,12 +155,11 @@ wait_time = 10.0
 one_shot = true
 
 [node name="Light2DLinterna" type="Light2D" parent="."]
-position = Vector2( 8.1642, 5.34567 )
-rotation = 0.0872665
-scale = Vector2( 1.5, 1 )
+position = Vector2( 0.121632, 9.64536 )
+enabled = false
 texture = ExtResource( 6 )
-offset = Vector2( 53.589, 0 )
-texture_scale = 0.45
+offset = Vector2( 75.8375, -1.16536 )
+texture_scale = 0.5
 color = Color( 1, 1, 0.760784, 1 )
 shadow_enabled = true
 shadow_gradient_length = 3.0
