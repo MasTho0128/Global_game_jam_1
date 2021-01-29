@@ -9,9 +9,9 @@ onready var sudor_izq = $sudor_panico_izq
 
 #velocidades, gravedad y direccion
 var velocidad = Vector2()
-var vel_caminar = 120
-var vel_salto = 250
-var gravedad = 400
+export(float) var vel_caminar = 120
+export(float) var vel_salto = 250
+export(float) var gravedad = 400
 var dir = 0
 var snap_vector = Vector2.DOWN * 16
 var pend_max = deg2rad(46)

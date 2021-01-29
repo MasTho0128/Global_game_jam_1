@@ -6,7 +6,7 @@
 [ext_resource path="res://escenas/jugador/sudor_panico.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 17.3631 )
+extents = Vector2( 8, 14.9587 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
@@ -61,7 +61,7 @@ animations = [ {
 "frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
 "loop": true,
 "name": "caminar",
-"speed": 10.0
+"speed": 6.0
 }, {
 "frames": [  ],
 "loop": true,
@@ -93,6 +93,8 @@ animations = [ {
 "player",
 ]]
 script = ExtResource( 2 )
+vel_caminar = 60.0
+vel_salto = 160.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 6.17394 )
@@ -118,7 +120,7 @@ emitting = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 14 )
 animation = "quieto"
-frame = 1
+frame = 3
 playing = true
 
 [node name="FMS" type="Node" parent="."]
