@@ -4,7 +4,7 @@
 [ext_resource path="res://sprites/enemigos/spritesheet_scorpion.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 11, 5 )
+extents = Vector2( 7.60419, 3.67106 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )

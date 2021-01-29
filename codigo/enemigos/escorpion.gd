@@ -7,9 +7,12 @@ export(float) var max_velocidad = 30
 func _physics_process(delta):
 	#global_position += direccion*max_velocidad*delta
 	var colision = move_and_collide(direccion*max_velocidad*delta)
-	if colision != null and colision.collider.has_method("perder_vida"):
-		colision.collider.perder_vida()
-		print("hacer daño")
+	if colision:
+		var body = colision.collider
+		if body.has_method("actualizar_vida"):
+			body.actualizar_vida(1)
+			body.fknockback((colision.position - position).normalized())
+			
 
 func cambiar_direccion(nueva_direccion, flipH, flipV):
 	direccion = nueva_direccion
