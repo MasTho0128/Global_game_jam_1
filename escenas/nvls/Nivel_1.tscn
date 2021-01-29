@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://codigo/nvls/Nivel_1.gd" type="Script" id=1]
 [ext_resource path="res://escenas/tilemaps/cueva.tscn" type="PackedScene" id=2]
 [ext_resource path="res://escenas/jugador/Pos_ini_player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://escenas/obj/Items.tscn" type="PackedScene" id=4]
+[ext_resource path="res://escenas/enemigos/escorpion.tscn" type="PackedScene" id=5]
+[ext_resource path="res://escenas/enemigos/direccionadorEscorpiones.tscn" type="PackedScene" id=6]
 
 [node name="Nivel_1" type="Node2D"]
 script = ExtResource( 1 )
@@ -11,7 +13,7 @@ script = ExtResource( 1 )
 [node name="tilemaps" type="Node2D" parent="."]
 
 [node name="cueva_tile" parent="tilemaps" instance=ExtResource( 2 )]
-tile_data = PoolIntArray( 262152, 2, 65539, 327687, 2, 65539, 393222, 2, 65539, 458752, 0, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458762, 0, 0 )
+tile_data = PoolIntArray( 262152, 17, 0, 262153, 1, 0, 327687, 17, 0, 327688, 13, 0, 393222, 17, 0, 393223, 13, 0, 458752, 1, 0, 458753, 1, 0, 458754, 1, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458758, 13, 0 )
 
 [node name="pos_player" type="Node2D" parent="."]
 
@@ -27,3 +29,35 @@ item = ""
 [node name="Items2" parent="Objs" instance=ExtResource( 4 )]
 position = Vector2( 72, 72 )
 item = "tijeras"
+
+[node name="enemigos" type="Node" parent="."]
+
+[node name="direccionadorEscorpiones" parent="enemigos" instance=ExtResource( 6 )]
+position = Vector2( 157.424, 39.0146 )
+direccion = Vector2( 0, 1 )
+
+[node name="direccionadorEscorpiones2" parent="enemigos" instance=ExtResource( 6 )]
+position = Vector2( 151.571, 75.2555 )
+
+[node name="direccionadorEscorpiones3" parent="enemigos" instance=ExtResource( 6 )]
+position = Vector2( 92.681, 68.8717 )
+direccion = Vector2( 0, -1 )
+
+[node name="direccionadorEscorpiones4" parent="enemigos" instance=ExtResource( 6 )]
+position = Vector2( 98.0042, 32.0229 )
+direccion = Vector2( 1, 0 )
+
+[node name="escorpion" parent="enemigos" instance=ExtResource( 5 )]
+position = Vector2( 111.712, 37.4332 )
+
+[node name="escorpion2" parent="enemigos" instance=ExtResource( 5 )]
+position = Vector2( 228.28, 43.8044 )
+
+[node name="direccionadorEscorpiones5" parent="enemigos" instance=ExtResource( 6 )]
+position = Vector2( 269.273, 45.3858 )
+flipV = true
+
+[node name="direccionadorEscorpiones6" parent="enemigos" instance=ExtResource( 6 )]
+position = Vector2( 178.705, 45.0012 )
+direccion = Vector2( 1, 0 )
+flipV = true
