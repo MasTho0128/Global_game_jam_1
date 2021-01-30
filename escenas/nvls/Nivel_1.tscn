@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://codigo/nvls/Nivel_1.gd" type="Script" id=1]
 [ext_resource path="res://escenas/tilemaps/cueva.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://escenas/obj/plataformaCorta.tscn" type="PackedScene" id=9]
 [ext_resource path="res://escenas/obj/plataformaLarga.tscn" type="PackedScene" id=10]
 [ext_resource path="res://sprites/entorno/platform_rope.png" type="Texture" id=11]
+[ext_resource path="res://escenas/obj/obstaculos.tscn" type="PackedScene" id=12]
 
 [node name="Nivel_1" type="Node2D"]
 script = ExtResource( 1 )
@@ -151,7 +152,7 @@ position = Vector2( 1434.47, 171.543 )
 position = Vector2( 264.846, 364.44 )
 
 [node name="pos_player" type="Node2D" parent="."]
-position = Vector2( 503.913, -48.067 )
+position = Vector2( -246.921, 131.779 )
 
 [node name="Pos_ini_player" parent="pos_player" instance=ExtResource( 3 )]
 position = Vector2( 517.174, 170.977 )
@@ -159,11 +160,11 @@ position = Vector2( 517.174, 170.977 )
 [node name="Objs" type="Node2D" parent="."]
 
 [node name="Items" parent="Objs" instance=ExtResource( 4 )]
-position = Vector2( 24, 72 )
-item = ""
+position = Vector2( 298.977, 310.936 )
+item = "tijeras"
 
 [node name="Items2" parent="Objs" instance=ExtResource( 4 )]
-position = Vector2( 72, 72 )
+position = Vector2( 1587.32, 115.776 )
 item = "tijeras"
 
 [node name="enemigos" type="Node2D" parent="."]
@@ -286,3 +287,7 @@ energy = 1.63
 shadow_enabled = true
 shadow_gradient_length = 1.0
 shadow_filter_smooth = 1.0
+
+[node name="obstaculos" parent="." instance=ExtResource( 12 )]
+position = Vector2( 351.828, 312.189 )
+obj = "puas"

@@ -3,6 +3,7 @@ extends KinematicBody2D
 export (String,"nada","puas") var obj
 var usar = true
 var nombre_anim = ""
+var sonido = null
 var gravedad = 200
 var velocidad = Vector2()
 
@@ -28,6 +29,7 @@ func _on_Area2D_body_entered(body)->void:
 			"puas":
 				if body.tiene_tijeras:
 					anim = "dest_puas"
+					sonido = $audios/AudioPuas
 					$CollisionShape2D.queue_free()
 					$Area2D.queue_free()
 		if anim == "":
@@ -37,6 +39,9 @@ func _on_Area2D_body_entered(body)->void:
 			$Timer.start()
 	if anim != "":
 		$AnimatedSprite.play(anim)
+	if sonido != null:
+		sonido.play()
+		
 
 
 func _on_Timer_timeout():

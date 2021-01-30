@@ -42,16 +42,22 @@ func maquina_estados(_delta):
 		get_node(anim).play(animacion_actual)
 	if estado == "quieto" and owner.velocidad.x != 0:
 		transition_to("caminar")
+		owner.get_node("Audio2DPasos").play()
 	if estado == "caminar" and owner.velocidad.x == 0 and owner.is_on_floor():
 		transition_to("quieto")
+		owner.get_node("Audio2DPasos").stop()
 	if estado == "saltar" and owner.is_on_floor():
 		transition_to("quieto")
+		owner.get_node("Audio2DPasos").stop()
 	if estado == "caer" and owner.is_on_floor():
 		transition_to("quieto")
+		owner.get_node("Audio2DPasos").stop()
 	if estado == "saltar" and owner.velocidad.y > 0 and !owner.is_on_floor():
 		transition_to("caer")
+		owner.get_node("Audio2DPasos").stop()
 	if estado == "caminar" and owner.velocidad.y > 0 and !owner.is_on_floor():
 		transition_to("caer")
+		owner.get_node("Audio2DPasos").stop()
 
 func _physics_process(delta):
 	maquina_estados(delta)

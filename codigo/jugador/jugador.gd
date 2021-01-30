@@ -86,6 +86,7 @@ func salto_jugador():
 		velocidad.y = -vel_salto
 		velocidad = move_and_slide(velocidad,Vector2(0,-1))
 		senal_cambiar_estado("saltar")
+		$Audio2DPasos.stop()
 
 func frenar_salto():
 	if velocidad.y < -140:
@@ -107,14 +108,6 @@ func item_activado():
 		girar_cosas.show()
 	if tiene_tijeras:
 		pass
-
-#func fknockback(direccion):
-#	if inmune == false:
-#		snap_vector.y = 0
-#		velocidad.y = -vel_salto
-#		velocidad.x = direccion*fuerza_knockback
-#		velocidad = move_and_slide(velocidad)
-#		senal_cambiar_estado("saltar")
 
 func actualizar_vida(_valor):
 	
