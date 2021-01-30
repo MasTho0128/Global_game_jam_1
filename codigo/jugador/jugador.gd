@@ -57,8 +57,7 @@ func _physics_process(delta):
 		$Light2D.energy = 0.95 + 0.05*sin( OS.get_ticks_msec()*0.006/old_vida)
 	else:
 		$Light2D.texture_scale = R
-#																print(Vector2(old_vida, R))
-#																print(vida)
+#	
 	#Regeneración de vida
 	if regenerar_vida:
 		vida = clamp(vida + 0.01, 0, 3)
@@ -119,14 +118,6 @@ func item_activado():
 
 func actualizar_vida(_valor):
 	
-	if inmune == false:
-		$TimerInmunidad.start()
-		$TimerRegenVida.start()
-		old_vida = vida
-		vida = clamp(vida - 1, 1, 3)
-		inmune = true
-		regenerar_vida = false
-	
 	if vida <= 3 and !sudor_dere.emitting and !sudor_izq.emitting:
 		sudor_dere.emitting = true
 		sudor_izq.emitting = true
@@ -144,8 +135,14 @@ func _on_TimerRegenVida_timeout():
 	regenerar_vida = true
 
 func _on_aplicar_knocbag_body_entered(body):
-	if body.is_in_group("enemigos"):
+	if !inmune and body.is_in_group("enemigos"):
+		$TimerInmunidad.start()
+		$TimerRegenVida.start()
+		old_vida = vida
+		vida = clamp(vida - 1, 1, 3)
 		inmune = true
+		regenerar_vida = false
+	
 		var hitbox = global_position - body.global_position
 		velocidad.x = sign(hitbox.x)*(100)
 		snap_vector.y = 0
