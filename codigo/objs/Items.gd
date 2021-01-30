@@ -1,8 +1,11 @@
 tool
 extends Area2D
-export (String,"linterna","tijeras")var item
+export (String,"vacio","linterna","tijeras")var item:String
 
 func _physics_process(_delta):
+	$AnimatedSprite.play(item)
+
+func _ready():
 	$AnimatedSprite.play(item)
 
 func _on_Items_body_entered(body):

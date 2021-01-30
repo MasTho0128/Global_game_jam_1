@@ -1,37 +1,38 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://codigo/objs/Items.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://sprites/atlas/items.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 8 )
+extents = Vector2( 12.7796, 8 )
 
-[sub_resource type="AtlasTexture" id=4]
-flags = 4
+[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 2 )
-region = Rect2( 96, 0, 32, 32 )
+region = Rect2( 48, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=5]
-flags = 4
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
-region = Rect2( 32, 64, 32, 32 )
+region = Rect2( 0, 0, 48, 48 )
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ SubResource( 4 ) ],
+"frames": [  ],
+"loop": true,
+"name": "vacio",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 7 ) ],
 "loop": true,
 "name": "tijeras",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 5 ) ],
+"frames": [ SubResource( 6 ) ],
 "loop": true,
 "name": "linterna",
 "speed": 5.0
 } ]
 
-[sub_resource type="Animation" id=2]
-resource_name = "sube_baja"
-length = 2.0
+[sub_resource type="Animation" id=5]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:position")
@@ -40,10 +41,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8, 1.2, 1.6, 2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 10 ), Vector2( 0, 0 ), Vector2( 0, -5 ), Vector2( 0, -10 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 0, 5 ) ]
 }
 
 [node name="Items" type="Area2D"]
@@ -53,10 +54,11 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 3 )
-animation = "linterna"
+frames = SubResource( 4 )
+animation = "vacio"
+playing = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "sube_baja"
-anims/sube_baja = SubResource( 2 )
+anims/sube_baja = SubResource( 5 )
 [connection signal="body_entered" from="." to="." method="_on_Items_body_entered"]
