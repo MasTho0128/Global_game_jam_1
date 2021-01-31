@@ -152,16 +152,16 @@ position = Vector2( 1434.47, 171.543 )
 position = Vector2( 264.846, 364.44 )
 
 [node name="pos_player" type="Node2D" parent="."]
-position = Vector2( -246.921, 131.779 )
+position = Vector2( 29.0791, 19.7789 )
 
 [node name="Pos_ini_player" parent="pos_player" instance=ExtResource( 3 )]
-position = Vector2( 517.174, 170.977 )
+position = Vector2( 489.686, 150.357 )
 
 [node name="Objs" type="Node2D" parent="."]
 
 [node name="Items" parent="Objs" instance=ExtResource( 4 )]
-position = Vector2( 298.977, 310.936 )
-item = "tijeras"
+position = Vector2( 577.601, 180.418 )
+item = "linterna"
 
 [node name="Items2" parent="Objs" instance=ExtResource( 4 )]
 position = Vector2( 1587.32, 115.776 )

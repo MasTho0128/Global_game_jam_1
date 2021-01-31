@@ -34,6 +34,9 @@ var regenerar_vida = true
 
 var R
 var old_vida = 0
+var b_vol_corazon
+var m_vol_corazon
+var frec_corazon
 var texture_scale_ini
 var tween_estado = 0
 
@@ -42,6 +45,8 @@ func _ready():
 	for t in get_tree().get_nodes_in_group("pos_ini"):self.global_position = t.global_position
 	
 	texture_scale_ini = $Light2D.texture_scale
+	b_vol_corazon = -$AudioCorazon.volume_db / 4
+	m_vol_corazon = $AudioCorazon.volume_db / 3
 	
 func _physics_process(delta):
 	aplicar_gravedad(delta)
@@ -57,6 +62,10 @@ func _physics_process(delta):
 		$Light2D.energy = 0.95 + 0.05*sin( OS.get_ticks_msec()*0.006/old_vida)
 	else:
 		$Light2D.texture_scale = R
+	
+	$AudioCorazon.volume_db = old_vida*m_vol_corazon + b_vol_corazon
+	frec_corazon = 0.24 - 0.08*old_vida
+	print($AudioCorazon.volume_db)
 #	
 	#Regeneración de vida
 	if regenerar_vida:
@@ -148,3 +157,6 @@ func generar_item(obj_nuevo)->void:
 	requiero_item.get_node("AnimatedSprite").play(obj_nuevo)
 	get_parent().call_deferred("add_child",requiero_item)
 	requiero_item.global_position = nuevo_item.global_position
+
+func _on_AudioCorazon_finished():
+	$AudioCorazon.play(frec_corazon)

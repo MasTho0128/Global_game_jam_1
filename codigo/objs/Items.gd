@@ -13,6 +13,8 @@ func _on_Items_body_entered(body):
 		match item:
 			"linterna":
 				body.tiene_linterna = true
+				body.get_node("AudioLinterna").play()
 			"tijeras":
 				body.tiene_tijeras = true
+				body.get_node("AudioTijeras").play()
 		queue_free()
