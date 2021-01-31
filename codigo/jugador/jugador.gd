@@ -29,6 +29,7 @@ var tiene_tijeras = false
 
 #relacionado con salud,vida, etc player
 var vida = 3 setget actualizar_vida
+var vida_max = 4
 var inmune = false
 var regenerar_vida = true
 
@@ -39,14 +40,16 @@ var m_vol_corazon
 var frec_corazon
 var texture_scale_ini
 var tween_estado = 0
+var muerte_pantalla
 
 func _ready():
 	OS.center_window()
 	for t in get_tree().get_nodes_in_group("pos_ini"):self.global_position = t.global_position
+	for t in get_tree().get_nodes_in_group("pos_muerte"):muerte_pantalla = t.global_position
 	
 	texture_scale_ini = $Light2D.texture_scale
-	b_vol_corazon = -$AudioCorazon.volume_db / 4
-	m_vol_corazon = $AudioCorazon.volume_db / 3
+	b_vol_corazon = -$AudioCorazon.volume_db / vida_max
+	m_vol_corazon = $AudioCorazon.volume_db / (vida_max - 1)
 	
 func _physics_process(delta):
 	aplicar_gravedad(delta)
@@ -54,9 +57,9 @@ func _physics_process(delta):
 	salto_jugador()
 	girar_spr()
 	item_activado()
-	if Input.is_action_just_pressed("ui_accept"):actualizar_vida(1)
+#	if Input.is_action_just_pressed("ui_accept"):actualizar_vida(1)
 	#Efecto de que la luz oscila
-	R = texture_scale_ini*(1 + old_vida)/3
+	R = texture_scale_ini*(1 + old_vida)/(vida_max - 1)
 	if old_vida >= vida:
 		$Light2D.texture_scale = R + 0.1*R*sin( OS.get_ticks_msec()*0.006/old_vida)
 		$Light2D.energy = 0.95 + 0.05*sin( OS.get_ticks_msec()*0.006/old_vida)
@@ -64,12 +67,13 @@ func _physics_process(delta):
 		$Light2D.texture_scale = R
 	
 	$AudioCorazon.volume_db = old_vida*m_vol_corazon + b_vol_corazon
-	frec_corazon = 0.24 - 0.08*old_vida
-	print($AudioCorazon.volume_db)
+	frec_corazon = (vida_max - old_vida)*0.16 / (vida_max - 1)
+#	print($AudioCorazon.volume_db)
 #	
 	#Regeneración de vida
 	if regenerar_vida:
-		vida = clamp(vida + 0.01, 0, 3)
+		vida = clamp(vida + 0.01, 0, vida_max)
+		apgar_sudor()
 	old_vida = lerp(old_vida, vida, 0.1)
 	if abs(old_vida-vida)<0.001: old_vida = vida
 
@@ -81,14 +85,19 @@ func aplicar_gravedad(delta):
 	else:
 		puede_saltar = false
 		velocidad.y += gravedad * delta
+	if muerte_pantalla != null:
+		if self.global_position.y > muerte_pantalla.y:
+			$AnimationPlayer.play("desvanecer")
 
 func mov_jugador():
 	if !inmune:
 		dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
+		if spr_player.animation == "desmayo": dir = 0
 		velocidad.x = dir * vel_caminar
 	velocidad = move_and_slide_with_snap(velocidad, snap_vector, Vector2.UP,true, 4, pend_max)
 
 func salto_jugador():
+	if spr_player.animation == "desmayo":return
 	if Input.is_action_just_released("up"):frenar_salto()
 	if Input.is_action_just_pressed("up") and puede_saltar:
 		snap_vector.y = 0
@@ -113,22 +122,25 @@ func girar_spr():
 		girar_cosas.scale.x = 1
 
 func item_activado():
-	if tiene_linterna:
+	if tiene_linterna and spr_player.animation != "desmayo":
 		girar_cosas.show()
 	if tiene_tijeras:
 		pass
 
 func actualizar_vida(_valor):
-	
-	if vida <= 3 and !sudor_dere.emitting and !sudor_izq.emitting:
+	if old_vida <= 3 and !sudor_dere.emitting and !sudor_izq.emitting:
 		sudor_dere.emitting = true
 		sudor_izq.emitting = true
-	if vida <= 2:
+	if old_vida <= 2:
 		sudor_dere.amount = 20
 		sudor_izq.amount = 20
-	if vida <= 0.2:
+	if old_vida <= 1:
 		sudor_dere.emitting = false
 		sudor_izq.emitting = false
+		girar_cosas.hide()
+		girar_cosas.get_node("Light2DLinterna").texture = null
+		senal_cambiar_estado("desmayo")
+	$lbl_control.text = str(vida)
 
 func _on_TimerInmunidad_timeout():
 	inmune = false
@@ -137,14 +149,15 @@ func _on_TimerRegenVida_timeout():
 	regenerar_vida = true
 
 func _on_aplicar_knocbag_body_entered(body):
+	if spr_player.animation == "desmayo":return
 	if !inmune and body.is_in_group("enemigos"):
 		$TimerInmunidad.start()
 		$TimerRegenVida.start()
 		old_vida = vida
-		vida = clamp(vida - 1, 1, 3)
+		vida = clamp(int(vida) - 1, 1, vida_max)
+		actualizar_vida(1)
 		inmune = true
 		regenerar_vida = false
-	
 		var hitbox = global_position - body.global_position
 		velocidad.x = sign(hitbox.x)*(100)
 		snap_vector.y = 0
@@ -160,3 +173,16 @@ func generar_item(obj_nuevo)->void:
 
 func _on_AudioCorazon_finished():
 	$AudioCorazon.play(frec_corazon)
+
+func _on_AnimatedSprite_animation_finished():
+	if spr_player.animation == "desmayo":$AnimationPlayer.play("desvanecer")
+
+
+func _on_AnimationPlayer_animation_finished(_anim_name):
+	if get_tree().reload_current_scene() == OK:pass
+
+func apgar_sudor():
+	sudor_dere.emitting = false
+	sudor_izq.emitting = false
+	sudor_dere.amount = 8
+	sudor_izq.amount = 8

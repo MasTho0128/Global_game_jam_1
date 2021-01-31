@@ -17,7 +17,7 @@ var lista_estados:Array = [
 	"saltar",
 	"caer",
 	"ganar",
-	"morir",
+	"desmayo",
 ]
 
 func transition_to(nuevo_estado):
@@ -33,8 +33,8 @@ func transition_to(nuevo_estado):
 			nueva_animacion = "caer"
 		"ganar":
 			nueva_animacion = "ganar"
-		"morir":
-			nueva_animacion = "morir"
+		"desmayo":
+			nueva_animacion = "desmayo"
 
 func maquina_estados(_delta):
 	if animacion_actual != nueva_animacion:
@@ -58,6 +58,8 @@ func maquina_estados(_delta):
 	if estado == "caminar" and owner.velocidad.y > 0 and !owner.is_on_floor():
 		transition_to("caer")
 		owner.get_node("Audio2DPasos").stop()
+	if estado == "desmayo":
+		owner.velocidad = Vector2(0,0)
 
 func _physics_process(delta):
 	maquina_estados(delta)
@@ -65,6 +67,6 @@ func _physics_process(delta):
 
 """
 utilizar owner para referirse al nodo padre de esta escena , no lo hago en el script del jugador
-pa que no quede tan copado, esas animaciones de ganar y morir son opcionales
+pa que no quede tan copado, esas animaciones de ganar y desmayo son opcionales
 aunq el personaje nunca muere pero seria la animacion de desmayarse o algo x el estilo
 """

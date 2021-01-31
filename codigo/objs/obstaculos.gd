@@ -6,17 +6,20 @@ var nombre_anim = ""
 var sonido = null
 var gravedad = 200
 var velocidad = Vector2()
+var pos_ini
 
 func _physics_process(delta):
 	if usar:$AnimatedSprite.play(obj)
 	if !Engine.editor_hint:
 		velocidad.y += gravedad * delta
 		velocidad = move_and_slide(velocidad*Vector2.DOWN)
+		global_position.x = pos_ini.x
 		if $RayCast2D.is_colliding():
 			set_physics_process(false)
 
 func _ready():
 	if !Engine.editor_hint:
+		pos_ini = global_position
 		match obj:
 			"puas":nombre_anim = "cizallas"
 			"otro item":nombre_anim = "nombre de la animacion "
