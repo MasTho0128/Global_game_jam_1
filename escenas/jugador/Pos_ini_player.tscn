@@ -14,4 +14,4 @@ __meta__ = {
 [node name="conepto-personaje-48x48" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 vframes = 4
-hframes = 6
+hframes = 12

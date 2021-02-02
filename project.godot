@@ -33,7 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Global Jam 1"
-run/main_scene="res://escenas/nvls/Nivel_1.tscn"
+run/main_scene="res://escenas/cinematica.tscn"
 config/icon="res://icon.png"
 
 [display]

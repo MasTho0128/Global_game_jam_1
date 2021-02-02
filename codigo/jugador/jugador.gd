@@ -50,6 +50,8 @@ func _ready():
 	texture_scale_ini = $Light2D.texture_scale
 	b_vol_corazon = -$AudioCorazon.volume_db / vida_max
 	m_vol_corazon = $AudioCorazon.volume_db / (vida_max - 1)
+	spr_player.play("levantar")
+	
 	
 func _physics_process(delta):
 	aplicar_gravedad(delta)
@@ -90,14 +92,14 @@ func aplicar_gravedad(delta):
 			$AnimationPlayer.play("desvanecer")
 
 func mov_jugador():
-	if !inmune:
+	if !inmune and spr_player.animation != "levantar":
 		dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 		if spr_player.animation == "desmayo": dir = 0
 		velocidad.x = dir * vel_caminar
 	velocidad = move_and_slide_with_snap(velocidad, snap_vector, Vector2.UP,true, 4, pend_max)
 
 func salto_jugador():
-	if spr_player.animation == "desmayo":return
+	if spr_player.animation == "desmayo" or spr_player.animation == "levantar":return
 	if Input.is_action_just_released("up"):frenar_salto()
 	if Input.is_action_just_pressed("up") and puede_saltar:
 		snap_vector.y = 0
@@ -139,6 +141,7 @@ func actualizar_vida(_valor):
 		sudor_izq.emitting = false
 		girar_cosas.hide()
 		girar_cosas.get_node("Light2DLinterna").texture = null
+		girar_cosas.get_node("Sprite").texture = null
 		senal_cambiar_estado("desmayo")
 	$lbl_control.text = str(vida)
 
@@ -176,6 +179,7 @@ func _on_AudioCorazon_finished():
 
 func _on_AnimatedSprite_animation_finished():
 	if spr_player.animation == "desmayo":$AnimationPlayer.play("desvanecer")
+	if spr_player.animation == "levantar":senal_cambiar_estado("quieto")
 
 
 func _on_AnimationPlayer_animation_finished(_anim_name):
@@ -186,3 +190,6 @@ func apgar_sudor():
 	sudor_izq.emitting = false
 	sudor_dere.amount = 8
 	sudor_izq.amount = 8
+
+
+#	yield(get_tree().create_timer(1),"timeout")
